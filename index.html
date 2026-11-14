@@ -2,20 +2,128 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#04050b"><link rel="manifest" href="manifest.json">
 <title>Arena War</title>
 <script>
 var GAME_LANG = window.GAME_LANG || 'fr', LANG_FILES = {fr:'index.html', en:'index-en.html', ru:'index-ru.html'}, LANG_NAMES = {fr:'🇫🇷 Français', en:'🇬🇧 English', ru:'🇷🇺 Русский'};
-(function(){ var w = 'en'; try { w = localStorage.getItem('aw_lang') || 'en'; } catch(e){} /* anglais par défaut */ if (w && w !== GAME_LANG && LANG_FILES[w]) location.replace(LANG_FILES[w] + location.search + location.hash); })();
+function langUrl(f){ var p = location.pathname, last = p.slice(p.lastIndexOf('/')+1); var dir = (last && last.indexOf('.') < 0) ? p + '/' : p.slice(0, p.lastIndexOf('/')+1); return dir + f; }
+(function(){ var w = 'en'; try { w = localStorage.getItem('aw_lang') || 'en'; } catch(e){} /* anglais par défaut */ if (w && w !== GAME_LANG && LANG_FILES[w]) location.replace(langUrl(LANG_FILES[w]) + location.search + location.hash); })();
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{--gold:#f2c14e;--gold2:#c9952a;--txt:#f1eefc;--mut:#a9abc8;--good:#4ade80;--bad:#f87171;--line:#c9a24a;
 --fire:#ff6b3d;--water:#3da5ff;--wind:#f0c43c;--light:#fff1c2;--dark:#a46bff}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:#04050b;overflow:hidden;font-family:Inter,system-ui,sans-serif;color:var(--txt);-webkit-tap-highlight-color:transparent;user-select:none}
+html,body{margin:0;height:100%;background:#04050b;overflow:hidden;overscroll-behavior:none;touch-action:manipulation;-webkit-text-size-adjust:100%;font-family:Inter,system-ui,sans-serif;color:var(--txt);-webkit-tap-highlight-color:transparent;user-select:none}
 #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
 #stage{position:relative;width:1280px;height:720px;flex:none;overflow:hidden;background:#0b0d1a;font-size:15px}
+/* 📱 téléphone : textes un peu plus grands (l'écran est réduit d'environ moitié), cibles tactiles, rotation, plein écran */
+body.touch #stage{font-size:16.5px}
+body.touch .mut{font-size:max(1em, 13px)}
+body.touch [style*="font-size:10px"],body.touch [style*="font-size:10.5px"],body.touch [style*="font-size:11px"],body.touch [style*="font-size:11.5px"]{font-size:13px!important}
+body.touch [style*="font-size:12px"],body.touch [style*="font-size:12.5px"]{font-size:14px!important}
+body.touch input,body.touch select,body.touch textarea{font-size:16px!important}
+body.touch .sbtn,body.touch .gbtn{min-height:40px}
+
+/* 📱 tailles de texte relevées sur écran tactile (générées) */
+body.touch .mc .stars{font-size:13.5px}
+body.touch .mc .lv{font-size:12.5px}
+body.touch .mc.inteam::after{font-size:13.5px}
+body.touch #story .tname small{font-size:13.5px}
+body.touch #tuto .tname small{font-size:13.5px}
+body.touch .hex>div{font-size:13.5px}
+body.touch .hex .rmain{font-size:10.5px}
+body.touch .skl small{font-size:13.5px}
+body.touch .setd{font-size:12px}
+body.touch .setrow{font-size:13.5px}
+body.touch .setlegend{font-size:12.5px}
+body.touch .autosell{font-size:14px}
+body.touch .autosell select{font-size:14px}
+body.touch #zoomv .zhint{font-size:13.5px}
+body.touch .scard .mc .cnt{font-size:13.5px}
+body.touch .sacts .sbtn{font-size:13px}
+body.touch .rfilters>.sbtn{font-size:14px}
+body.touch .rcard{font-size:14px}
+body.touch .rcard .acts .sbtn{font-size:13px}
+body.touch .unit .lv{font-size:12.5px}
+body.touch .unit .sts span{font-size:13.5px}
+body.touch .unit .sts sub{font-size:10.5px}
+body.touch .skb .k{font-size:12.5px}
+body.touch .sdesc{font-size:13.5px}
+body.touch #blog{font-size:13px}
+body.touch .ams{font-size:13.5px}
+body.touch .mini .mlv{font-size:11.5px}
+body.touch .lb{font-size:14px}
+body.touch .dlog{font-size:14px}
+body.touch .ctrel{font-size:13.5px}
+body.touch .news{font-size:13px}
+body.touch .recap{font-size:14px}
+body.touch .recap th{font-size:12.5px}
+body.touch .rcp-bar span{font-size:13px}
+body.touch .awk6t{font-size:13px}
+body.touch .rchip{font-size:13px}
+body.touch .pslot .crown span{font-size:11.5px}
+body.touch .pslot .ldtxt{font-size:12.5px}
+body.touch .featban .fbtxt small{font-size:12.5px}
+body.touch .featban .stars{font-size:12.5px}
+body.touch .rfl small{font-size:11px}
+body.touch .felb span{font-size:13.5px}
+body.touch .rpick .rcard{font-size:13px}
+body.touch #modal textarea{font-size:12.5px}
+body.touch .rnchip small{font-size:11px}
+body.touch .mfq{font-size:14px}
+body.touch .echip{font-size:13.5px}
+body.touch .msort,body.touch .rfilters select{font-size:13.5px}
+body.touch .boxgrid .mc .stars{font-size:11px}
+body.touch .boxgrid .mc .lv{font-size:11.5px}
+body.touch .boxgrid .mc .elb{font-size:12.5px}
+body.touch .boxgrid .mc .rlb{font-size:12.5px}
+body.touch .pbhint{font-size:12.5px}
+body.touch .rfh{font-size:13px}
+body.touch .slotchips .sbtn{font-size:13.5px}
+body.touch .setsinfo summary{font-size:13.5px}
+body.touch .rlhead{font-size:13.5px}
+body.touch .rtile{font-size:13.5px}
+body.touch .rtt{font-size:13px}
+body.touch .rsubs{font-size:12.5px}
+body.touch .ron{font-size:12.5px}
+body.touch .qup{font-size:12.5px}
+body.touch .tperfect{font-size:14px}
+body.touch .mc .a2b{font-size:11px}
+body.touch .a2sk .mut{font-size:13.5px}
+body.touch .a2new{font-size:11.5px}
+body.touch .hlrec{font-size:13.5px}
+body.touch .hlstar{font-size:11px}
+body.touch .hln{font-size:12px}
+body.touch .hln b{font-size:12.5px}
+body.touch .hlsk{font-size:13px}
+body.touch .hlsk .mut{font-size:12.5px}
+body.touch .hlteaser .mut{font-size:13.5px}
+body.touch .a2g span{font-size:12.5px}
+body.touch .a2g.sm span{font-size:11.5px}
+body.touch .dimn .a2t{font-size:13px}
+body.touch .dimst{font-size:12.5px}
+body.touch .dimc .a2btn{font-size:13.5px}
+body.touch .qfind{font-size:13.5px}
+body.touch .unit .owner{font-size:12px}
+body.touch .instparty .ip{font-size:12.5px}
+body.touch .grow .gbtns .sbtn{font-size:13px}
+body.touch .gbonus{font-size:13px}
+body.touch .sts span .stk{font-size:10.5px}
+body.touch .mechwarn{font-size:14px}
+body.touch .prep-foe .mechwarn{font-size:13px}
+body.touch .p7t{font-size:12.5px}
+body.touch .evscroll .evbtns button{font-size:14px}
+body.touch .evrow .evinfo{font-size:14px}
+#rotateMsg{display:none;position:fixed;inset:0;z-index:99999;background:#04050bf2;color:#f1eefc;align-items:center;justify-content:center;flex-direction:column;gap:18px;font:800 20px Inter,sans-serif;text-align:center;padding:30px}
+#rotateMsg .ph{font-size:64px;animation:rotph 2.2s ease-in-out infinite}
+@keyframes rotph{0%,20%{transform:rotate(0)}50%,80%{transform:rotate(-90deg)}100%{transform:rotate(0)}}
+body.touch.portrait #rotateMsg{display:flex}
+#fsBtn{position:fixed;left:calc(12px + env(safe-area-inset-left));bottom:calc(12px + env(safe-area-inset-bottom));width:40px;height:40px;border-radius:50%;z-index:9000;background:rgba(16,18,40,.85);border:2px solid #c9a24a;color:#fff;font-size:18px;display:none}
+body.touch #musicBtn{right:auto;left:calc(12px + env(safe-area-inset-left));bottom:calc(60px + env(safe-area-inset-bottom))} body.touch.fs #musicBtn{bottom:calc(12px + env(safe-area-inset-bottom))} body.touch .skills{right:20px} body.touch #fsBtn{display:block} body.touch.fs #fsBtn{display:none}
+#tipBubble{position:fixed;z-index:99998;max-width:280px;padding:8px 12px;border-radius:10px;background:#141832f2;border:1px solid #c9a24a;color:#f1eefc;font:600 14px Inter,sans-serif;pointer-events:none;box-shadow:0 8px 24px #000a}
 .screen{position:absolute;inset:0;animation:fadein .35s}
 .screen.still{animation:none}
 @keyframes fadein{from{opacity:0}}
@@ -361,7 +469,7 @@ table.st td:last-child{text-align:right;font-weight:700}
 .order div:first-child{width:52px;height:52px;margin-top:-4px;box-shadow:0 0 10px var(--gold);border-color:var(--gold);--es:34px}
 #banner{position:absolute;top:84px;left:50%;transform:translateX(-50%) scale(.9);z-index:10;font-family:Cinzel,serif;font-size:26px;font-weight:900;padding:8px 36px;background:linear-gradient(90deg,#0000,#000d 20%,#000d 80%,#0000);color:var(--gold);text-shadow:0 2px 4px #000;opacity:0;transition:.2s;white-space:nowrap;pointer-events:none}
 #banner.show{opacity:1;transform:translateX(-50%) scale(1)}
-.skills{position:absolute;right:20px;bottom:16px;display:flex;gap:14px;z-index:10;align-items:flex-end}
+.skills{position:absolute;right:62px;bottom:16px;display:flex;gap:14px;z-index:10;align-items:flex-end}
 .skb{position:relative;width:92px;height:92px;border-radius:50%;font-size:40px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--ec) 65%,#fff),color-mix(in srgb,var(--ec) 55%,#000) 75%);border:3px solid #ffffffaa;box-shadow:0 5px 0 #0009,0 0 0 2px #000;transition:.12s;overflow:hidden}
 .skb img{width:100%;height:100%;object-fit:cover}
 .skb:hover:not(:disabled){transform:translateY(-3px)}
@@ -722,7 +830,7 @@ table.st td:last-child{text-align:right;font-weight:700}
 .prep-foe .mechwarn{margin-top:6px;font-size:11.5px;padding:5px 9px}
 .prep-foe{max-height:430px}
 
-#musicBtn{position:fixed;right:12px;bottom:12px;z-index:9999;width:38px;height:38px;border-radius:50%;border:1px solid #f2c14e88;background:#0d0f1ecc;color:#fff;font-size:17px;cursor:pointer;box-shadow:0 0 10px #f2c14e44}
+#musicBtn{position:fixed;right:calc(12px + env(safe-area-inset-right));bottom:calc(12px + env(safe-area-inset-bottom));z-index:9999;width:38px;height:38px;border-radius:50%;border:1px solid #f2c14e88;background:#0d0f1ecc;color:#fff;font-size:17px;cursor:pointer;box-shadow:0 0 10px #f2c14e44}
 #musicBtn:hover{transform:scale(1.1)}
 .musopt{display:flex;align-items:center;gap:10px;margin:10px 0;padding:8px 10px;border-radius:10px;background:#ffffff08}
 .musopt input[type=range]{accent-color:#f2c14e}
@@ -5768,7 +5876,34 @@ const SCENES = {
 /* ---------- 9. INTERFACE ---------- */
 let screen = 'lobby', selMon = null, runeFilter = 0, prepStage = 1, prepDungeon = null, prepArena = null;
 const BACK = {prep:'map'};
-function fit(){ const s = Math.min(innerWidth/1280, innerHeight/720); $('#stage').style.transform = `scale(${s})`; }
+function fit(){ const vw = visualViewport?.width || innerWidth, vh = visualViewport?.height || innerHeight, s = Math.min(vw/1280, vh/720);
+  $('#stage').style.transform = `scale(${s})`; document.body.classList.toggle('portrait', vh > vw); }
+/* 📱 mobile : détection tactile, plein écran + paysage au premier toucher, appui long = info-bulle (remplace le survol) */
+(function(){
+  const touch = matchMedia('(pointer:coarse)').matches || 'ontouchstart' in window;
+  if (!touch) return;
+  document.body.classList.add('touch');
+  document.body.insertAdjacentHTML('beforeend', `<div id="rotateMsg"><div class="ph">📱</div><div>${GAME_LANG==='ru'?'Поверни телефон горизонтально':GAME_LANG==='en'?'Turn your phone sideways':'Tourne ton téléphone en mode paysage'}</div></div>
+    <button id="fsBtn" title="Plein écran">⛶</button>`);
+  const goFs = () => { const el = document.documentElement, rq = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (!rq || document.fullscreenElement || document.webkitFullscreenElement) return;
+    try { const p = rq.call(el, {navigationUI:'hide'}); p?.then?.(()=>screen.orientation?.lock?.('landscape').catch(()=>{})).catch(()=>{}); } catch(e){} };
+  let asked = false;
+  addEventListener('pointerdown', () => { if (!asked){ asked = true; goFs(); } }, {passive:true});
+  document.getElementById('fsBtn').addEventListener('click', e => { e.stopPropagation(); goFs(); });
+  const fsCh = () => { document.body.classList.toggle('fs', !!(document.fullscreenElement || document.webkitFullscreenElement)); setTimeout(fit, 120); };
+  document.addEventListener('fullscreenchange', fsCh); document.addEventListener('webkitfullscreenchange', fsCh);
+  visualViewport?.addEventListener('resize', fit); addEventListener('orientationchange', () => setTimeout(fit, 250));
+  document.addEventListener('dblclick', e => e.preventDefault(), {passive:false});
+  // appui long sur un élément avec info-bulle (title) : affiche le texte
+  let lp = null, tip = null;
+  const hide = () => { clearTimeout(lp); lp = null; tip?.remove(); tip = null; };
+  addEventListener('touchstart', e => { hide(); const el = e.target.closest?.('[title]'); if (!el || !el.title) return; const t = e.touches[0];
+    lp = setTimeout(() => { tip = document.createElement('div'); tip.id = 'tipBubble'; tip.textContent = el.title; document.body.appendChild(tip);
+      const r = tip.getBoundingClientRect(); tip.style.left = Math.max(6, Math.min(innerWidth - r.width - 6, t.clientX - r.width/2)) + 'px'; tip.style.top = Math.max(6, t.clientY - r.height - 18) + 'px'; }, 450); }, {passive:true});
+  addEventListener('touchend', () => { clearTimeout(lp); setTimeout(()=>{ tip?.remove(); tip = null; }, 1600); }, {passive:true});
+  addEventListener('touchmove', hide, {passive:true});
+})();
 function go(s, arg){ screen = s; if (arg!==undefined) prepStage = arg; render(); }
 // Re-dessine l'écran courant en conservant la position de défilement des listes (sélection d'un monstre, etc.)
 let lastScreen = null;
@@ -6274,6 +6409,7 @@ const UI = {
     const how = {random:'Touche un ennemi (cibles aléatoires)', enemy:'Touche un ennemi', enemies:'Touche un ennemi (tous touchés)', ally:'Touche un allié', allies:'Touche un allié (tous concernés)', self:'Touche ton monstre'}[s.t];
     $('#sdesc').innerHTML = `<b>${s.n}</b> <span class="mut">· niv. ${lvS}${s.cd?` · recharge ${s.cd}`:''}</span><div>${s.d}</div><div class="mut" style="margin-top:4px">👉 ${how}</div>`;
     $('#sdesc').classList.remove('hidden');
+    const bar = $('#skillBar'); $('#sdesc').style.right = ((parseFloat(getComputedStyle(bar).right)||0) + bar.offsetWidth + 14) + 'px';
   },
   float(u, txt, cls){
     const e = this.el(u); if (!e) return;
@@ -6841,7 +6977,7 @@ const ACT = {
   wbSeen: () => { S.wbLastReward = null; save(); render(); },
   musToggle: () => { MUS.toggle(); ACT.options(); },
   // 🌐 langue : chaque langue a sa propre page (index.html / index-en.html / index-ru.html), la sauvegarde est partagée
-  setLang: d => { if (d.l===GAME_LANG) return; try { localStorage.setItem('aw_lang', d.l); } catch(e){} save(); location.href = LANG_FILES[d.l]; },
+  setLang: d => { if (d.l===GAME_LANG) return; try { localStorage.setItem('aw_lang', d.l); } catch(e){} save(); location.href = langUrl(LANG_FILES[d.l]); },
   grindModal: d => grindModal(d.id),
   runeDetailBack: d => runeDetail(d.id),
   grindDo: d => { const r = rune(d.id); const o = grindRune(r, +d.i, +d.r); if (!o) return;
